@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri App</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="user_input">
+        <form id="form_elem" action="POST">
+          <label for="username">Field 1: username - </label>
+          <input
+            required="true"
+            type="text"
+            name="username_field"
+            placeholder="enter your name here..."
+            id="username"
+          />
+          <label for="age">Field 2:age - </label>
+          <input
+            required="true"
+            type="number"
+            name="age_field"
+            placeholder="enter your age here..."
+            id="age"
+          />
+          <label for="comment">Field 3: comment - </label>
+          <input
+            required="true"
+            type="text"
+            name="comment_field"
+            placeholder="enter your comment here..."
+            id="comment"
+          />
+          <input type="submit" name="submit" value="submit" id="submit_query" />
+        </form>
+      </div>
+      <p id="header">Yet to recieve an answer...</p>
+    </div>
+  </body>
+</html>
