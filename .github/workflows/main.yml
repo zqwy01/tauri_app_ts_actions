@@ -1,4 +1,4 @@
-name: push-to-deploy
+name: To-deploy
 run-name: ${{ github.actor }} first Action
 on:
     push:
@@ -7,17 +7,11 @@ on:
     pull_request:
         branches: 
             - develop
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 jobs:
     ubuntu_start:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                node-version: '14'
             - name: Install dep
               run: |
                 npm install -g bats
@@ -25,7 +19,3 @@ jobs:
                 echo 'Install final'
             - name: Step_Test2
               run: echo 'Test 2 good'
-            - name: Step_Test3
-              run: |
-                echo "Single job, step two, command one"
-                echo "Single job, step two, command two"
