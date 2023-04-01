@@ -1,6 +1,6 @@
 name: 'publish'
 
-on: push
+on: [push]
 
 jobs:
   build-binaries:
@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -29,8 +29,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
 
+      - name: Tauri Build
+        run: |
+          node -v
+          sudo npm install typescript -g
+          npm i vite
       - uses: JonasKruckenberg/tauri-build@v1
         id: tauri_build
+        
 
       - uses: actions/upload-artifact@v3
         with:
