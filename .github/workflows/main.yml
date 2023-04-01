@@ -1,11 +1,5 @@
 name: To-deploy
-on:
-    push:
-        branches:
-            - deploy
-    pull_request:
-        branches: 
-            - develop
+on: push
 jobs:
     ubuntu_start:
         runs-on: ubuntu-latest
