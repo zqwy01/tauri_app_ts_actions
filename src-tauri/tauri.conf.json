@@ -16,6 +16,9 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true
       }
     },
     "bundle": {
@@ -27,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.tauri.RR4L-ZQWY.PeepsLogger",
       "targets": "all"
     },
     "security": {
