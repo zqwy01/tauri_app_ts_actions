@@ -1,5 +1,4 @@
 name: To-deploy
-run-name: ${{ github.actor }} first Action
 on:
     push:
         branches:
