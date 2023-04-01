@@ -32,7 +32,7 @@ jobs:
       - name: Tauri Build
         run: |
           node -v
-          sudo npm install typescript -g
+          npm install typescript -g
           npm i vite
       - uses: JonasKruckenberg/tauri-build@v1
         id: tauri_build
