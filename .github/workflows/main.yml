@@ -1,9 +1,6 @@
 name: 'publish'
 
-on:
-  push:
-    branches:
-      - deploy
+on: push
 
 jobs:
   build-binaries:
