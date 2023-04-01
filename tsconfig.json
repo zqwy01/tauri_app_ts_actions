@@ -6,6 +6,7 @@
     "moduleResolution": "Node",
     "strict": false,
     "sourceMap": true,
+    "typeRoots": ["./node_modules/@types"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "types": ["vite/client"],
