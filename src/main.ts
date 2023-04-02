@@ -23,8 +23,7 @@ class Person {
     this.timestamp = timestamp;
     this.comment = comment;
   }
-  /**Converts a Person instance to a tuple of (Username, Age, Timestamp, Comment)
-   *
+  /** Converts a Person instance to a tuple of (Username, Age, Timestamp, Comment)
    *
    * @remarks
    * Basically useless for now
@@ -55,15 +54,13 @@ const send_person_data = async function (
 ) {
   // for each tuple instance call the backend
   for (const person of person_array) {
-    console.log(JSON.stringify(person));
+    const person_json_string = JSON.stringify(person);
+    console.log(person_json_string);
     await invoke("accept_person_data", {
-      username: person.username,
-      age: person.age,
-      timestamp: person.timestamp,
-      comment: person.comment,
+      personJsonString: person_json_string,
     })
       .then((res) => {
-// @ts-ignore
+        // @ts-ignore
         display_elem.innerText = res;
       }, (e) => {
         display_elem.innerText = e;
@@ -76,14 +73,14 @@ const send_person_data = async function (
  * the logger object is then reset to a default state
  * @remarks
  * When a PersonLogger is added to the FrontEnd: FIXME: reset the frontend logger as well
- *  
+ *
  * @param display_elem: is there to display the answer of the backend
  * @returns nothing (no promises?!)
  */
 const flush_logger = async function (display_elem: HTMLElement | null) {
   await invoke("flush_logger")
     .then((res) => {
-// @ts-ignore
+      // @ts-ignore
       display_elem.innerText = res;
     }, (e) => {
       display_elem.innerText = e;
@@ -108,7 +105,7 @@ window.addEventListener("DOMContentLoaded", () => {
       form_elem[2].value,
     );
     // checking what button was pressed
-// @ts-ignore
+    // @ts-ignore
     if (event.submitter.id === "add_person") {
       // send person to backend
       send_person_data([person], header_elem);

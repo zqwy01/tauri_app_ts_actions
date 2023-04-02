@@ -19,9 +19,8 @@ const TARGET_FILE: &'static str = "../app.log";
 // then write this object somewhere on disk (preferably in the file dir)
 // so here i basically get a req from the front and write the file
 #[tauri::command]
-fn accept_person_data(username: String, age: i32, timestamp: String, comment: String, logger: State<PersonLoggerWrapper>) -> String{
-    let person_tuple = (username, age, timestamp, comment);
-    logger.logger.lock().unwrap().append(vec![person_tuple]);
+fn accept_person_data(person_json_string: String, logger: State<PersonLoggerWrapper>) -> String{
+    logger.logger.lock().unwrap().append(vec![person_json_string]);
     format!("{}", logger.logger.lock().unwrap())
 }
 

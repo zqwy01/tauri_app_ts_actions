@@ -65,6 +65,16 @@ impl std::fmt::Debug for Person {
                self.username, self.age, self.timestamp, self.comment)
     }
 }
+impl std::default::Default for Person {
+    fn default() -> Self {
+        Self {
+            username: "John Doe".to_owned(),
+            age: 34,
+            timestamp: "1.01.1970, 00:00:00".to_owned(),
+            comment: "An error must have occured somewhere right?".to_owned(),
+        }
+    }    
+}
 impl std::fmt::Display for PersonLogger {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:#?}\n
@@ -78,8 +88,18 @@ impl PersonLogger {
      /// returns a PersonLogger instance
      /// Oh and btw, this struct is actually printable, i implemented
      /// std::fmt::Display on it! les goooo
-     pub fn from_tuple(person_tuple: Vec<(String, i32, String, String)>, target_file: String) -> Self {
-        let persons: Vec<Person> = person_tuple.iter().map(|p| Person::from(p)).collect();
+     pub fn from_tuple(persons_vec_json: Vec<String>, target_file: String) -> Self {
+        let persons: Vec<Person> = persons_vec_json.iter().map(
+            |p| -> Person {
+                match serde_json::from_str(p) {
+                    Ok(p) => p,
+                    Err(e) => {
+                        println!("Error during parsing: {e}");
+                        Person::default()
+                    }
+                }
+            }
+        ).collect();
         Self {
             persons: Some(persons),
             target_file,
@@ -103,8 +123,18 @@ impl PersonLogger {
      /// if Option<Vec<Person>> is None, replaces it with person_tuple to persons_given_array
      /// if Option<Vec<Person>> is Some(n), append given to that
      /// ```
-     pub fn append(&mut self, person_tuple: Vec<(String, i32, String, String)>) {
-        let mut persons_given_array: Vec<Person> = person_tuple.iter().map(|p| Person::from(p)).collect();
+     pub fn append(&mut self, persons_vec_json: Vec<String>) {
+        let mut persons_given_array: Vec<Person> = persons_vec_json.iter().map(
+            |p| -> Person {
+                match serde_json::from_str(p) {
+                    Ok(p) => p,
+                    Err(e) => {
+                        println!("Error during parsing: {e}");
+                        Person::default()
+                    }
+                }
+            }
+        ).collect();
         if let Some(persons) = &mut self.persons {
             persons.append(&mut persons_given_array);
         } else {
