@@ -54,10 +54,8 @@ const send_person_data = async function (
   display_elem: HTMLElement | null,
 ) {
   // for each tuple instance call the backend
-  let i = 0;
   for (const person of person_array) {
-    i++;
-    console.log(i);
+    console.log(JSON.stringify(person));
     await invoke("accept_person_data", {
       username: person.username,
       age: person.age,

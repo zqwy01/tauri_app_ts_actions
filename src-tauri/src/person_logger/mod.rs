@@ -117,15 +117,15 @@ impl PersonLogger {
      /// idea what to do otherwise)
      /// ```
      pub fn flush(&mut self) -> std::io::Result<()> {
-        let mut file = OpenOptions::new()
-            .append(true)
-            .create(true)
-            .open(self.target_file.clone())?;
         // this if let Some() there is to avoid looping over nothin lol
         // if removed
         // then wont work lol
         // AFTER FLUSH THE PersonLogger.persons IS EMPTIED
         if let Some(persons) = &self.persons { 
+            let mut file = OpenOptions::new()
+                .append(true)
+                .create(true)
+                .open(self.target_file.clone())?;
             for person in persons { 
                 match write!
                     (
