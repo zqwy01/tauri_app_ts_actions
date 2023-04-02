@@ -55,7 +55,6 @@ const send_person_data = async function (
   // for each tuple instance call the backend
   for (const person of person_array) {
     const person_json_string = JSON.stringify(person);
-    console.log(person_json_string);
     await invoke("accept_person_data", {
       personJsonString: person_json_string,
     })
