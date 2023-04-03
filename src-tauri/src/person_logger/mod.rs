@@ -84,7 +84,7 @@ impl std::fmt::Display for PersonLogger {
     }
 }
 impl PersonLogger {
-     /// takes a (Username(String), Age(i32), Timestamp(String), Comment(String)) tuple and a target file path.
+     /// takes a json string interpretation and a target file path.
      /// returns a PersonLogger instance
      /// Oh and btw, this struct is actually printable, i implemented
      /// std::fmt::Display on it! les goooo
@@ -119,8 +119,8 @@ impl PersonLogger {
      /// ```markdown
      /// PersonLogger::append()
      ///
-     /// Appends a given Vec<String, i32, String, String> to PersonLogger
-     /// if Option<Vec<Person>> is None, replaces it with person_tuple to persons_given_array
+     /// Appends a given Vec<String> (of json interpretation) to PersonLogger
+     /// if Option<Vec<Person>> is None, replaces it with persons_given_array
      /// if Option<Vec<Person>> is Some(n), append given to that
      /// ```
      pub fn append(&mut self, persons_vec_json: Vec<String>) {
