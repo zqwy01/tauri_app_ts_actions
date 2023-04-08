@@ -42,18 +42,11 @@ jobs:
       - uses: JonasKruckenberg/tauri-build@v1
         id: tauri_build
         
-
       - uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: "${{ join(fromJSON(steps.tauri_build.outputs.artifacts), '\n') }}"
-
-  build:
-    name: Create_Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+        
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -63,6 +56,9 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Stable Version for using.
+            Stable Version for using on
+            Windows
+            Linux
+            Macintosh
           draft: false
           prerelease: false
