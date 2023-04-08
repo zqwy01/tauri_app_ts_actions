@@ -1,7 +1,12 @@
-name: 'publish'
+name: 'Building'
 
-on: [push]
-
+on: 
+    push:
+    pull_request:
+        branches:
+        - 'main'
+        tags:
+        - 'Stable'
 jobs:
   build-binaries:
     strategy:
@@ -43,20 +48,21 @@ jobs:
           name: artifacts
           path: "${{ join(fromJSON(steps.tauri_build.outputs.artifacts), '\n') }}"
 
-  publish:
-    needs: build-binaries
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v3
-        id: download
-        with:
-          name: artifacts
-          path: artifacts
-      - name: 'create release'
-        uses: RussianRoulette4Life/tauri_app_ts@master
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Stable Version for using.
           draft: false
-          files: ./artifacts/**/*
+          prerelease: false
