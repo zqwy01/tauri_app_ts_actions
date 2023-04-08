@@ -1,6 +1,8 @@
 name: 'publish'
 
-on: [push]
+on:
+    push:
+        branches: main
 
 jobs:
   build-binaries:
@@ -61,7 +63,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Yeeees.
+            You can run the web application on all of the following OS
             - MacOs
             - Linux
             - Windows
