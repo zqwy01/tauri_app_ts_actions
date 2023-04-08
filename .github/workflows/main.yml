@@ -2,7 +2,7 @@ name: 'publish'
 
 on:
     push:
-        branches: develop
+        branches: main
 
 jobs:
   build-binaries:
@@ -84,3 +84,4 @@ jobs:
       uses: actions-js/push@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
