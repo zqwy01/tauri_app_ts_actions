@@ -54,7 +54,7 @@ jobs:
           name: artifacts
           path: artifacts
       - name: 'create release'
-        uses: RussianRoulette4Life/tauri_app_ts@master
+        uses: softprops/action-gh-release@master
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         with:
