@@ -70,10 +70,6 @@ jobs:
           draft: false
           files: ./artifacts/**/*
           allowUpdates: true
-  push_commit:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
       with:
         persist-credentials: false
         fetch-depth: 0 
