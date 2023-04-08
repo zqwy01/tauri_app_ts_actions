@@ -49,7 +49,7 @@ jobs:
           path: "${{ join(fromJSON(steps.tauri_build.outputs.artifacts), '\n') }}"
 
   build:
-    name: Create Release
+    name: Create_Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
