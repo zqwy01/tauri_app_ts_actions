@@ -3,7 +3,14 @@
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 mod person_logger;
+use std::{sync::Mutex, io::ErrorKind};
+
 use person_logger::PersonLogger;
+use tauri::State;
+
+struct PersonLoggerWrapper {
+    logger: Mutex<PersonLogger>
+}
 
 const TARGET_FILE: &'static str = "../app.log";
 // so basically a little bit of context before i forget
@@ -12,17 +19,29 @@ const TARGET_FILE: &'static str = "../app.log";
 // then write this object somewhere on disk (preferably in the file dir)
 // so here i basically get a req from the front and write the file
 #[tauri::command]
-fn accept_person_data(name: String, age: i32, timestamp: String, comment: String) -> String {
-    let logger: PersonLogger = PersonLogger::new((name, age, timestamp, comment), TARGET_FILE.to_owned());
-    logger.flush().unwrap();
-    return format!("{}", logger);
+fn accept_person_data(person_json_string: String, logger: State<PersonLoggerWrapper>) -> String{
+    logger.logger.lock().unwrap().append(vec![person_json_string]);
+    format!("{}", logger.logger.lock().unwrap())
 }
 
+#[tauri::command]
+fn flush_logger(logger: State<PersonLoggerWrapper>) -> String {
+    match logger.logger.lock().unwrap().flush() {
+        Ok(()) => format!("File successfully written to {}", TARGET_FILE),
+        Err(e) => {
+            match e.kind() {
+                ErrorKind::InvalidData => format!("<p style=\"color=\"red\"\"\">There are no people in the array, nothing was written.<p>"),
+                _ => format!("Some kind of file system error occured! Error dump: {}", e.to_string()),
+            }
+        }
+    }
+}
 // TODO complete writing this one (like actually write to the file!()
 // using the OpenOptions struct)
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![accept_person_data])
+        .manage(PersonLoggerWrapper {logger: Mutex::new(PersonLogger::new_empty(TARGET_FILE.to_owned()))})
+        .invoke_handler(tauri::generate_handler![accept_person_data, flush_logger])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
